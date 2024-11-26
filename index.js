@@ -1,22 +1,15 @@
+// index.js
 const express = require('express');
-const mongoose = require('mongoose');
+const cors = require('cors'); // cors 모듈 불러오기
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-// MongoDB 연결 문자열
-const uri = "mongodb+srv://test:1234@cluster0.dfioo8z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+app.use(cors()); // 모든 도메인 허용
+const route = require('./routes/route');
 
-// MongoDB 연결 설정
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('MongoDB connection error:', err));
+app.use(express.json());
+app.use('/crawling3', route);
 
-// Express 기본 라우팅
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
-
-// 서버 실행
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
